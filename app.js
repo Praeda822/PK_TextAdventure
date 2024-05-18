@@ -102,3 +102,55 @@ const scenes = {
     },
   },
 };
+
+// Function to display the current scene
+function displayScene(sceneKey) {
+  // Fetch the current scene object based on the sceneKey
+  const scene = scenes[sceneKey];
+
+  // Update the story element with the text of the current scene
+  storyElement.textContent = scene.text;
+
+  // Clear any previous result message
+  resultElement.textContent = "";
+
+  // Clear the user input field
+  userInput.value = "";
+
+  // Set focus to the input field for user convenience
+  userInput.focus();
+}
+
+// Function to handle user input
+function handleInput() {
+  // Capture the user input, trim whitespace, and convert to lowercase
+  const userChoice = userInput.value.trim().toLowerCase();
+
+  // Fetch the current scene object
+  const scene = scenes[currentScene];
+
+  // Check if the user input matches any options in the current scene
+  if (scene.options[userChoice]) {
+    // Update the current scene based on user choice
+    currentScene = scene.options[userChoice];
+
+    // Display the new scene
+    displayScene(currentScene);
+  } else {
+    // Show an error message if the user input is invalid
+    resultElement.textContent = "Invalid command. Please try again.";
+  }
+}
+
+// Event listener for the submit button
+submitButton.addEventListener("click", handleInput);
+
+// Event listener for Enter key
+userInput.addEventListener("keypress", (e) => {
+  if (e.key === "Enter") {
+    handleInput();
+  }
+});
+
+// Start the game by displaying the initial scene
+displayScene(currentScene);
