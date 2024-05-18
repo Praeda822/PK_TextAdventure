@@ -114,7 +114,7 @@ function displayScene(sceneKey) {
   // Clear any previous result message
   resultElement.textContent = "";
 
-  // Clear the user input field
+  // Clear the options
   userInput.value = "";
 
   // Set focus to the input field for user convenience
