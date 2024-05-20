@@ -256,25 +256,39 @@ function resetScores() {
 // Function to determine the class based on scores
 function determineClass() {
   const highestScore = Math.max(scores.warrior, scores.mage, scores.thief);
-  let resultText = '';
-  let resultDesc = '';
-  if (scores.warrior === highestScore) {
-    resultText = 'Warrior';
-    resultDesc = `For as long as war has raged, heroes from every corner of the world have strived to master the art of battle. Warriors combine strength, leadership, and a vast knowledge of arms and armour to wreak havoc in glorious combat.<br><br>
-    The warrior can protect their allies from the front lines with shield & sword locking down their enemies whilst their allies support the warrior from behind with spell and bow, or they can forgo the shield to unleash their rage & fury at the nearest threat with a variety of deadly weapons.`;
-  } else if (scores.mage === highestScore) {
-    resultText = 'Mage';
-    resultDesc = `Students gifted with a keen intellect and unwavering discipline may walk the path of the mage, as the arcane magic available to the mage is both great and dangerous, and thus is revealed only to the most devoted practitioners.<br><br> 
+  // Object to hold classes
+  const classInfo = {
+    warrior: {
+      text: 'Warrior',
+      desc: `For as long as war has raged, heroes from every corner of the world have strived to master the art of battle. Warriors combine strength, leadership, and a vast knowledge of arms and armour to wreak havoc in glorious combat.<br><br>
+    The warrior can protect their allies from the front lines with shield & sword locking down their enemies whilst their allies support the warrior from behind with spell and bow, or they can forgo the shield to unleash their rage & fury at the nearest threat with a variety of deadly weapons.`,
+    },
+    mage: {
+      text: 'Mage',
+      desc: `Students gifted with a keen intellect and unwavering discipline may walk the path of the mage, as the arcane magic available to the mage is both great and dangerous, and thus is revealed only to the most devoted practitioners.<br><br> 
     To avoid interference with their spellcasting, mages typically wear only cloth armor, but they also utilise both arcane shields and enchantments to give them additional protection.<br><br> 
-    To keep enemies at bay, the mage can summon bursts of fire to incinerate distant targets and cause entire areas to erupt, setting groups of foes ablaze.`;
+    To keep enemies at bay, the mage can summon bursts of fire to incinerate distant targets and cause entire areas to erupt, setting groups of foes ablaze.`,
+    },
+    thief: {
+      text: 'Thief',
+      desc: `For thieves, the only code is the contract, and their honor is purchased in gold. Free from the constraints of a conscience, these mercenaries rely on brutal and efficient tactics.<br><br>
+    Lethal assassins and masters of stealth, they will approach their marks from behind, piercing a vital organ and vanishing into the shadows before the victim hits the ground.`,
+    },
+  };
+  let classResult;
+  if (scores.warrior === highestScore) {
+    classResult = 'warrior';
+  } else if (scores.mage === highestScore) {
+    classResult = 'mage';
   } else {
-    resultText = 'Thief';
-    resultDesc = `For thieves, the only code is the contract, and their honor is purchased in gold. Free from the constraints of a conscience, these mercenaries rely on brutal and efficient tactics.<br><br>
-    Lethal assassins and masters of stealth, they will approach their marks from behind, piercing a vital organ and vanishing into the shadows before the victim hits the ground.`;
+    classResult = 'thief';
   }
+
+  const { text, desc } = classInfo[classResult];
+
   console.log(scores);
-  storyElement.innerHTML += `<br><br><strong>${resultText}</strong><br><br>
-  ${resultDesc}`;
+  storyElement.innerHTML += `<br><br><strong>${text}</strong><br><br>
+  ${desc}`;
 }
 
 // Function to restart game
