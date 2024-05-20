@@ -19,19 +19,9 @@ function resetScores() {
 
 // Function to determine the class based on scores
 function determineClass() {
-  // Ensure one class always ends up with the highest score
-  if (scores.warrior === scores.mage && scores.mage === scores.thief) {
-    scores.warrior++;
-  } else if (scores.warrior === scores.mage) {
-    scores.warrior++;
-  } else if (scores.mage === scores.thief) {
-    scores.mage++;
-  } else if (scores.warrior === scores.thief) {
-    scores.thief++;
-  }
-
-  let highestScore = Math.max(scores.warrior, scores.mage, scores.thief);
+  const highestScore = Math.max(scores.warrior, scores.mage, scores.thief);
   let resultText = '';
+
   if (scores.warrior === highestScore) {
     resultText = 'Warrior';
   } else if (scores.mage === highestScore) {
@@ -39,6 +29,7 @@ function determineClass() {
   } else {
     resultText = 'Thief';
   }
+
   storyElement.innerHTML += `<br><br><strong>${resultText}</strong>`;
 }
 
