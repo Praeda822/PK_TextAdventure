@@ -284,7 +284,17 @@ function sceneTransition(nextScene, action) {
   currentScene = nextScene;
   // Scene Changa'
   displayScene(currentScene);
-  // Freestyla'
+  // Function is only called through its parent function, createButton, which in turn calls displayScene() to update the current scene
+}
+
+// Seperate function for the button creation
+function createButton(choiceText, nextScene, action) {
+  const button = document.createElement('button');
+  button.textContent = choiceText;
+  button.classList.add('game--button');
+  // Assigns event listener to each button that calls my sceneTransition function on click
+  button.addEventListener('click', () => sceneTransition(nextScene, action));
+  return button;
 }
 
 // Function to display the current scene
@@ -303,11 +313,7 @@ function displayScene(sceneKey) {
   // Display the choices
   Object.keys(scene.options).forEach(choiceText => {
     const nextScene = scene.options[choiceText];
-    const action = scene.action;
-    const button = document.createElement('button');
-    button.textContent = choiceText;
-    button.classList.add('game--button');
-    button.addEventListener('click', () => sceneTransition(nextScene, action));
+    const button = createButton(choiceText, nextScene, scene.action);
     choicesElement.appendChild(button);
   });
 }
