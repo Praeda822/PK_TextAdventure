@@ -1,7 +1,6 @@
 'use strict';
 
 // Game scene logic
-// Game scene logic
 const scenes = {
   start: {
     text: `Welcome, adventurer. Before you begin your journey, we must determine your true nature. Answer the following questions truthfully, and your path will be revealed.`,
@@ -258,16 +257,24 @@ function resetScores() {
 function determineClass() {
   const highestScore = Math.max(scores.warrior, scores.mage, scores.thief);
   let resultText = '';
-
+  let resultDesc = '';
   if (scores.warrior === highestScore) {
     resultText = 'Warrior';
+    resultDesc = `For as long as war has raged, heroes from every corner of the world have strived to master the art of battle. Warriors combine strength, leadership, and a vast knowledge of arms and armour to wreak havoc in glorious combat.<br><br>
+    The warrior can protect their allies from the front lines with shield & sword locking down their enemies whilst their allies support the warrior from behind with spell and bow, or they can forgo the shield to unleash their rage & fury at the nearest threat with a variety of deadly weapons.`;
   } else if (scores.mage === highestScore) {
     resultText = 'Mage';
+    resultDesc = `Students gifted with a keen intellect and unwavering discipline may walk the path of the mage, as the arcane magic available to the mage is both great and dangerous, and thus is revealed only to the most devoted practitioners.<br><br> 
+    To avoid interference with their spellcasting, mages typically wear only cloth armor, but they also utilise both arcane shields and enchantments to give them additional protection.<br><br> 
+    To keep enemies at bay, the mage can summon bursts of fire to incinerate distant targets and cause entire areas to erupt, setting groups of foes ablaze.`;
   } else {
     resultText = 'Thief';
+    resultDesc = `For thieves, the only code is the contract, and their honor is purchased in gold. Free from the constraints of a conscience, these mercenaries rely on brutal and efficient tactics.<br><br>
+    Lethal assassins and masters of stealth, they will approach their marks from behind, piercing a vital organ and vanishing into the shadows before the victim hits the ground.`;
   }
   console.log(scores);
-  storyElement.innerHTML += `<br><br><strong>${resultText}</strong>`;
+  storyElement.innerHTML += `<br><br><strong>${resultText}</strong><br><br>
+  ${resultDesc}`;
 }
 
 // Function to restart game
