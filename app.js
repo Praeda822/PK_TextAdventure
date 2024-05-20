@@ -254,12 +254,6 @@ function resetScores() {
   scores = { ...initialScores };
 }
 
-function sceneTransition(nextScene, action) {
-  if (action) action();
-  currentScene = nextScene;
-  displayScene(currentScene);
-}
-
 // Function to determine the class based on scores
 function determineClass() {
   const highestScore = Math.max(scores.warrior, scores.mage, scores.thief);
@@ -282,6 +276,17 @@ function restartGame() {
   displayScene('start');
 }
 
+// Function to change scene
+function sceneTransition(nextScene, action) {
+  // Only executes action if it's defined
+  if (action) action();
+  // Scene tracka'
+  currentScene = nextScene;
+  // Scene Changa'
+  displayScene(currentScene);
+  // Freestyla'
+}
+
 // Function to display the current scene
 function displayScene(sceneKey) {
   const scene = scenes[sceneKey];
@@ -297,9 +302,12 @@ function displayScene(sceneKey) {
 
   // Display the choices
   Object.keys(scene.options).forEach(choiceText => {
+    const nextScene = scene.options[choiceText];
+    const action = scene.action;
     const button = document.createElement('button');
     button.textContent = choiceText;
     button.classList.add('game--button');
+    button.addEventListener('click', () => sceneTransition(nextScene, action));
     choicesElement.appendChild(button);
   });
 }
