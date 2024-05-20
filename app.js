@@ -211,6 +211,11 @@ function displayScene(sceneKey) {
   const scene = scenes[sceneKey];
   storyElement.innerHTML = scene.text;
 
+  // Check if we're at the results scene
+  if (sceneKey === 'results') {
+    determineClass();
+  }
+
   // Clear previous choices
   choicesElement.innerHTML = '';
 
