@@ -1,38 +1,6 @@
 'use strict';
 
-// Selectors
-const storyElement = document.querySelector('.game__story');
-const choicesElement = document.querySelector('.game__choices');
-
-// Initial game state
-let currentScene = 'start';
-let scores = {
-  warrior: 0,
-  mage: 0,
-  thief: 0,
-};
-
-// Function to reset the game state
-function resetScores() {
-  scores = { warrior: 0, mage: 0, thief: 0 };
-}
-
-// Function to determine the class based on scores
-function determineClass() {
-  const highestScore = Math.max(scores.warrior, scores.mage, scores.thief);
-  let resultText = '';
-
-  if (scores.warrior === highestScore) {
-    resultText = 'Warrior';
-  } else if (scores.mage === highestScore) {
-    resultText = 'Mage';
-  } else {
-    resultText = 'Thief';
-  }
-
-  storyElement.innerHTML += `<br><br><strong>${resultText}</strong>`;
-}
-
+// Game scene logic
 // Game scene logic
 const scenes = {
   start: {
@@ -162,7 +130,78 @@ const scenes = {
     },
   },
   q4_break: {
-    text: `Your boldness is noted. Let's see your results.`,
+    text: `Your boldness is noted. Next question.`,
+    action: () => {
+      scores.warrior++;
+    },
+    options: {
+      Next: 'question5',
+    },
+  },
+  q4_unlock: {
+    text: `Your patience and caution are noted. Next question.`,
+    action: () => {
+      scores.mage++;
+    },
+    options: {
+      Next: 'question5',
+    },
+  },
+  q4_inform: {
+    text: `Your respect for boundaries is noted. Next question.`,
+    action: () => {
+      scores.thief++;
+    },
+    options: {
+      Next: 'question5',
+    },
+  },
+  question5: {
+    text: `A powerful artifact is guarded by a dragon. Do you...`,
+    options: {
+      'Fight the dragon to claim the artifact': 'q5_fight',
+      'Sneak past the dragon to steal the artifact': 'q5_sneak',
+      'Negotiate with the dragon to gain access to the artifact':
+        'q5_negotiate',
+    },
+  },
+  q5_fight: {
+    text: `Your bravery knows no bounds. Next question.`,
+    action: () => {
+      scores.warrior++;
+    },
+    options: {
+      Next: 'question6',
+    },
+  },
+  q5_sneak: {
+    text: `Your stealth is unmatched. Next question.`,
+    action: () => {
+      scores.thief++;
+    },
+    options: {
+      Next: 'question6',
+    },
+  },
+  q5_negotiate: {
+    text: `Your wisdom guides you. Next question.`,
+    action: () => {
+      scores.mage++;
+    },
+    options: {
+      Next: 'question6',
+    },
+  },
+  question6: {
+    text: `A rival challenges you to a duel. Do you...`,
+    options: {
+      'Accept the duel, confident in your abilities': 'q6_accept',
+      'Refuse the duel, seeking a peaceful resolution': 'q6_refuse',
+      'Trick the rival into withdrawing the challenge': 'q6_trick',
+    },
+  },
+  q6_accept: {
+    text: `Your courage is admirable. Let's see your results.`,
     action: () => {
       scores.warrior++;
     },
@@ -170,8 +209,8 @@ const scenes = {
       'See Results': 'results',
     },
   },
-  q4_unlock: {
-    text: `Your patience and caution are noted. Let's see your results.`,
+  q6_refuse: {
+    text: `Your diplomacy shines. Let's see your results.`,
     action: () => {
       scores.mage++;
     },
@@ -179,8 +218,8 @@ const scenes = {
       'See Results': 'results',
     },
   },
-  q4_inform: {
-    text: `Your respect for boundaries is noted. Let's see your results.`,
+  q6_trick: {
+    text: `Your cunning is evident. Let's see your results.`,
     action: () => {
       scores.thief++;
     },
@@ -195,12 +234,47 @@ const scenes = {
     },
   },
 };
+
+// Selectors
+const storyElement = document.querySelector('.game__story');
+const choicesElement = document.querySelector('.game__choices');
+
+// Initial game state
+let currentScene = 'start';
+let scores = {
+  warrior: 0,
+  mage: 0,
+  thief: 0,
+};
+
+// Function to reset the game state
+function resetScores() {
+  scores = { warrior: 0, mage: 0, thief: 0 };
+}
+
+// Function to determine the class based on scores
+function determineClass() {
+  const highestScore = Math.max(scores.warrior, scores.mage, scores.thief);
+  let resultText = '';
+
+  if (scores.warrior === highestScore) {
+    resultText = 'Warrior';
+  } else if (scores.mage === highestScore) {
+    resultText = 'Mage';
+  } else {
+    resultText = 'Thief';
+  }
+
+  console.log(scores);
+  storyElement.innerHTML += `<br><br><strong>${resultText}</strong>`;
+}
+
 // Function to display the current scene
 function displayScene(sceneKey) {
   const scene = scenes[sceneKey];
   storyElement.innerHTML = scene.text;
 
-  // Check if we're at the results scene
+  // Check if results is the current scene
   if (sceneKey === 'results') {
     determineClass();
   }
