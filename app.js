@@ -242,21 +242,22 @@ const choicesElement = document.querySelector('.game__choices');
 
 // Initial game state
 let currentScene = 'start';
-let scores = {
+const initialScores = {
   warrior: 0,
   mage: 0,
   thief: 0,
 };
+let scores = { ...initialScores };
 
 // Function to reset the game state
 function resetScores() {
-  scores = { warrior: 0, mage: 0, thief: 0 };
+  scores = { ...initialScores };
 }
 
-// Function to restart game
-function restartGame() {
-  resetScores();
-  displayScene('start');
+function sceneTransition(nextScene, action) {
+  if (action) action();
+  currentScene = nextScene;
+  displayScene(currentScene);
 }
 
 // Function to determine the class based on scores
@@ -271,9 +272,14 @@ function determineClass() {
   } else {
     resultText = 'Thief';
   }
-
   console.log(scores);
   storyElement.innerHTML += `<br><br><strong>${resultText}</strong>`;
+}
+
+// Function to restart game
+function restartGame() {
+  resetScores();
+  displayScene('start');
 }
 
 // Function to display the current scene
@@ -294,11 +300,6 @@ function displayScene(sceneKey) {
     const button = document.createElement('button');
     button.textContent = choiceText;
     button.classList.add('game--button');
-    button.onclick = () => {
-      if (scene.action) scene.action();
-      currentScene = scene.options[choiceText];
-      displayScene(currentScene);
-    };
     choicesElement.appendChild(button);
   });
 }
