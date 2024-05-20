@@ -229,6 +229,7 @@ const scenes = {
   },
   results: {
     text: `Based on your answers, your class is: `,
+    action: restartGame,
     options: {
       Restart: 'start',
     },
@@ -250,6 +251,12 @@ let scores = {
 // Function to reset the game state
 function resetScores() {
   scores = { warrior: 0, mage: 0, thief: 0 };
+}
+
+// Function to restart game
+function restartGame() {
+  resetScores();
+  displayScene('start');
 }
 
 // Function to determine the class based on scores
