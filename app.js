@@ -14,9 +14,7 @@ let scores = {
 
 // Function to reset the game state
 function resetScores() {
-  scores.warrior = 0;
-  scores.mage = 0;
-  scores.thief = 0;
+  scores = { warrior: 0, mage: 0, thief: 0 };
 }
 
 // Function to determine the class based on scores
