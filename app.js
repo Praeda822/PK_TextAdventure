@@ -286,6 +286,7 @@ function determineClass() {
 
   const { text, desc } = classInfo[classResult];
 
+  // Debugger to check if scores is holding
   console.log(scores);
   storyElement.innerHTML += `<br><br><strong>${text}</strong><br><br>
   ${desc}`;
