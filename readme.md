@@ -34,23 +34,23 @@ question1: {
 The game continues with similar questions, each offering multiple choices that affect the players scores in different ways. Here are a few more examples:
 
 **_Question 2_**:
-You find a book of forbidden knowledge that promises immense power but warns of dire consequences. What do you do?
-**1**. Read the book, embracing the risk for the pursuit of knowledge: Increases mage score.
-**2**. Burn the book, removing the temptation and protecting others: Increases warrior score.
-**3**. Hide the book, saving it for when you might need its power: Increases thief score.
+You find a book of forbidden knowledge that promises immense power but warns of dire consequences. What do you do?<br><br>
+**1**. Read the book, embracing the risk for the pursuit of knowledge: Increases mage score.<br>
+**2**. Burn the book, removing the temptation and protecting others: Increases warrior score.<br>
+**3**. Hide the book, saving it for when you might need its power: Increases thief score.<br>
 
 **_Question 3_**:
-You are offered a position of great power and influence, but accepting it means compromising your most cherished principles. What do you do?
-**1.** Accept the position, believing you can do more good from within: Increases warrior and mage scores.
-**2.** Refuse the position, staying true to your principles: Increases mage score.
-**3.** Accept the position with the intent to undermine it from within: Increases thief score.
+You are offered a position of great power and influence, but accepting it means compromising your most cherished principles. What do you do?<br><br>
+**1.** Accept the position, believing you can do more good from within: Increases warrior and mage scores.<br>
+**2.** Refuse the position, staying true to your principles: Increases mage score.<br>
+**3.** Accept the position with the intent to undermine it from within: Increases thief score.<br>
 
 **_Question 4_**:
-You discover a hidden door in the basement of an old inn. Behind it lies either great treasure or a terrible curse. What do you do?
+You discover a hidden door in the basement of an old inn. Behind it lies either great treasure or a terrible curse. What do you do?<br><br>
 
-**1.** Break it open and face whatever comes, believing in your strength: Increases warrior score.
-**2.** Search for a key or mechanism to unlock it safely: Increases mage score.
-**3.** Leave it alone and inform the innkeeper, respecting the unknown: Increases thief score.
+**1.** Break it open and face whatever comes, believing in your strength: Increases warrior score.<br>
+**2.** Search for a key or mechanism to unlock it safely: Increases mage score.<br>
+**3.** Leave it alone and inform the innkeeper, respecting the unknown: Increases thief score.<br>
 
 This ultimately culminates in the players'score being counted up and that score is then reflected on an ending scene being **Warrior**, **Thief**, and/or **Mage** (_respectively_).
 
@@ -72,3 +72,62 @@ This ultimately culminates in the players'score being counted up and that score 
   storyElement.innerHTML += `<br><br><strong>${text}</strong><br><br>
   ${desc}`;
 ```
+
+#### The little function that could
+
+And here is how my function that is responsible for picking, and displaying, my scenes in the app works, because it's literally only ever had to reformatted _ONCE_:
+
+```
+// Function to display the current scene
+function displayScene(sceneKey) {
+  const scene = scenes[sceneKey];
+  storyElement.innerHTML = scene.text;
+
+  // Check if results is the current scene
+  if (sceneKey === 'results') {
+    determineClass();
+  }
+
+  // Clear previous choices
+  choicesElement.innerHTML = '';
+
+  // Display the choices
+  Object.keys(scene.options).forEach(choiceText => {
+    const nextScene = scene.options[choiceText];
+    const button = createButton(choiceText, nextScene, scene.action);
+    choicesElement.appendChild(button);
+  });
+}
+```
+
+My function starts by using the _sceneKey_ to retrieve the corresponding scene object from the _scenes_ object.
+
+```
+const scene = scenes[sceneKey];
+```
+
+Then, my _storyElement_ is updated with the text property of the current scene. This updates the main narrative area of the game with the current scene's story text.
+
+```
+storyElement.innerHTML = scene.text;
+```
+
+If the _sceneKey_ is _'results'_, the function calls _determineClass()_, and this function calculates and displays the player's class based on their scores.
+
+```
+if (sceneKey === 'results') {
+  determineClass();
+}
+```
+
+Next _choicesElement_ is cleared of any previous choices to ensure that only the choices relevant to the current scene are displayed.
+
+```
+choicesElement.innerHTML = '';
+```
+
+Finally, and most **importantly**, my function interates over each key in the _options_ object of the current scene, and each key represents a choice text that the player can select
+
+For each choice, my _nextScene_ is determined from the options object using the choice text as the key.
+
+Then, a button is created using the _createButton_ function, passing the choice text, next scene, and any action associated with the current scene (_if an action is present_) and then the button is appended to the _choicesElement_, making it visible to the player.
